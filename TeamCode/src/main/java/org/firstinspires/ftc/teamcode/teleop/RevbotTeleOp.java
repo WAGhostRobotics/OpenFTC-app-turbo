@@ -4,16 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Revbot;
-import org.firstinspires.ftc.teamcode.claw.CubeClaw;
 import org.firstinspires.ftc.teamcode.claw.OneServoClaw;
-import org.firstinspires.ftc.teamcode.claw.RelicClaw;
+import org.firstinspires.ftc.teamcode.claw.TwoServoClaw;
 import org.firstinspires.ftc.teamcode.drivetrain.Drivetrain;
 import org.firstinspires.ftc.teamcode.drivetrain.Slide;
-import org.firstinspires.ftc.teamcode.lift.AbstractLift;
-import org.firstinspires.ftc.teamcode.lift.ArmWinch;
-import org.firstinspires.ftc.teamcode.lift.CubeLift;
-import org.firstinspires.ftc.teamcode.lift.RelicSlide;
-import org.firstinspires.ftc.teamcode.swivel.BallKnock;
+import org.firstinspires.ftc.teamcode.lift.CRServoLift;
+import org.firstinspires.ftc.teamcode.lift.Lift;
+import org.firstinspires.ftc.teamcode.lift.MotorLift;
+import org.firstinspires.ftc.teamcode.swivel.ServoSwivel;
 
 /**
  * Drive method (TeleOp) from which all methods extend from.
@@ -82,19 +80,19 @@ public abstract class RevbotTeleOp extends LinearOpMode {
     class InputHandler {
         static final double MIN_TRIGGER_VALUE = 0.1;
         OneServoClaw relicClaw;
-        CubeClaw cubeClaw;
-        BallKnock ballKnock;
-        AbstractLift armWinch, cubeLift, relicSlide;
+        TwoServoClaw cubeClaw;
+        ServoSwivel servoSwivel;
+        Lift armWinch, cubeLift, relicSlide;
 
         double[] fourAxisDirection;
 
         void init(Revbot robot) {
-            relicClaw = new RelicClaw(robot.relicClaw);
-            cubeClaw = new CubeClaw(robot.clawLeft, robot.clawRight, 0.2, 0.8);
-            ballKnock = new BallKnock(robot.fondler);
-            armWinch = new ArmWinch(robot.armWinch);
-            cubeLift = new CubeLift(robot.cubeLift);
-            relicSlide = new RelicSlide(robot.relicSlide);
+            relicClaw = new OneServoClaw(robot.relicClaw);
+            cubeClaw = new TwoServoClaw(robot.clawLeft, robot.clawRight, 0.2, 0.8);
+            servoSwivel = new ServoSwivel(robot.ballKnock);
+            armWinch = new CRServoLift(robot.armWinch);
+            cubeLift = new MotorLift(robot.cubeLift);
+            relicSlide = new CRServoLift(robot.relicSlide);
         }
 
         void handleInput() {
@@ -115,19 +113,21 @@ public abstract class RevbotTeleOp extends LinearOpMode {
                 cubeClaw.close();
             }
 
-            // Face button control (Relic/Endgame) (g1)
-            if (gamepad1.a) {
-                setCurrentDirection(new double[]{1., 1., 0.});
-            }
-
+            //closes relic claw (B)
             if (gamepad1.b) {
                 relicClaw.close();
+                //opens relic claw (X)
             } else if (gamepad1.x) {
                 relicClaw.open();
             }
 
+            //raises relic slide (Y)
             if (gamepad1.y) {
                 relicSlide.raise();
+            } else if (gamepad1.a) {
+                relicSlide.lower();
+            } else {
+                relicSlide.stop();
             }
 
             // Shoulder button control (g1)
@@ -155,13 +155,15 @@ public abstract class RevbotTeleOp extends LinearOpMode {
 
             // Face button control (g2)
             if (gamepad2.b) {
-                cubeClaw.openRight();
+                cubeClaw.openClaw2();
             } else if (gamepad2.x) {
-                cubeClaw.openLeft();
+                cubeClaw.openClaw1();
             }
 
+            //lowers arm (A)
             if (gamepad2.a) {
                 armWinch.lower();
+                //raises arm (Y)
             } else if (gamepad2.y) {
                 armWinch.raise();
             } else {
@@ -187,6 +189,7 @@ public abstract class RevbotTeleOp extends LinearOpMode {
 
         private double currentGear = 1.0;
 
+        //sets starting speed of 1, speed increases by 0.1 each time
         Gear() {
             this(1.0, 0.1);
         }
