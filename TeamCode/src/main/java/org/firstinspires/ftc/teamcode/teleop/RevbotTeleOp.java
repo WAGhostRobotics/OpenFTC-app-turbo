@@ -93,7 +93,7 @@ public abstract class RevbotTeleOp extends LinearOpMode {
             servoSwivel = new ServoSwivel(robot.ballKnock);
             armWinch = new CRServoLift(robot.armWinch);
             cubeLift = new MotorLift(robot.cubeLift);
-            relicSlide = new MotorLift(robot.relicSlide);
+            relicSlide = new CRServoLift(robot.relicSlide);
         }
 
         void handleInput() {
