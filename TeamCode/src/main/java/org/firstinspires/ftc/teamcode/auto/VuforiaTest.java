@@ -48,7 +48,10 @@ import org.firstinspires.ftc.teamcode.Revbot;
 import org.firstinspires.ftc.teamcode.drivetrain.Drivetrain;
 import org.firstinspires.ftc.teamcode.drivetrain.Slide;
 import org.firstinspires.ftc.teamcode.enums.Direction;
+<<<<<<< HEAD
 import org.firstinspires.ftc.teamcode.vuforia.ClosableVuforiaLocalizer;
+=======
+>>>>>>> 951fc0b1f0408ff861e36e76528254c5166bc50b
 import org.firstinspires.ftc.teamcode.vuforia.Vuforia;
 
 /**
@@ -137,7 +140,7 @@ public class VuforiaTest extends LinearOpMode {
         relicTrackables.activate();
 
         final int STOP_RANGE=50;
-        final int TARGET_X=-100;
+        final int TARGET_X=-150;
         final int TARGET_Y=0;
         final double DRIVE_POO=0.5; //speed of driving
 
@@ -179,6 +182,8 @@ public class VuforiaTest extends LinearOpMode {
                     double rX = rot.firstAngle;
                     double rY = rot.secondAngle;
                     double rZ = rot.thirdAngle;
+
+                    poo.stopTurning();
 
                     if (tY >= TARGET_Y+STOP_RANGE) {
                         str+=" LEFT ";
