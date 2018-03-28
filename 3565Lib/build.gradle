@@ -1,0 +1,53 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    defaultConfig {
+        minSdkVersion 23
+        targetSdkVersion 25
+    }
+    flavorDimensions 'type'
+    productFlavors {
+        openrc {
+            dimension 'type'
+            buildConfigField 'boolean', 'IS_OPENRC', 'true'
+            buildConfigField 'boolean', 'IS_TURBO', 'true'
+        }
+        stock {
+            dimension 'type'
+            buildConfigField 'boolean', 'IS_OPENRC', 'false'
+            buildConfigField 'boolean', 'IS_TURBO', 'false'
+        }
+    }
+
+    // Selecting a release variant will prompt teams to set up a signing key. Now that there's
+    // a reason to select other variants (the stock feature of OpenRC), it's better to filter out
+    // the ones that will confuse teams.
+    variantFilter { variant ->
+        if (variant.buildType.name == "release") {
+            setIgnore(true)
+        }
+    }
+
+    buildToolsVersion '27.0.3'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+repositories {
+    flatDir {
+        dirs '../libs'
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    stockImplementation(name: 'RobotCore-release', ext: 'aar')
+    stockImplementation(name: 'Hardware-release', ext: 'aar')
+    stockImplementation(name: 'FtcCommon-release', ext: 'aar')
+    openrcImplementation project(':RobotCore')
+    openrcImplementation project(':Hardware')
+    openrcImplementation project(':FtcCommon')
+}

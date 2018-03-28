@@ -4,13 +4,9 @@
  * It is extraordinarily rare that you will ever need to edit this file.
  */
 buildscript {
-    ext.kotlin_version = '1.2.10'
+    ext.kotlin_version = '1.2.21'
     repositories {
-        google()
         jcenter()
-        // You need to add the following repository to download the
-        // new plugin.
-        google()
     }
 
     dependencies {
@@ -19,4 +15,8 @@ buildscript {
     }
 }
 
-
+allprojects {
+    repositories {
+        google()
+    }
+}
