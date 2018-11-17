@@ -46,19 +46,19 @@ public class RevbotMecanum extends RobotMap {
     public ColorSensor color;
 
     // Declare robot components.
-    public Pivot flipper;
+    public Pivot flipper; // a pivot is a thing that goes up and down with servos
     // Holds the ball knocker arm.
-    public Pivot vertical;
+    public Pivot vertical; // a pivot is a thing that goes up and down with servos
     // Holds the REV IMU.
     public GhostIMU ghostIMU;
     // Holds the color sensor wrapper.
     public GhostColorSensor ghostColor;
     // Holds the glyph lift.
-    public Lift glyphLift;
+    public Lift glyphLift; // a lift is a thing that goes up and down with motors
 
-    public Lift flipperLift;
+    public Lift flipperLift; // a lift is a thing that goes up and down with motors
     // Holds the intake.
-    public Intake intake;
+    public Intake intake; // an intake is a thing that goes in and out with motors0
 
     @Override
     public void init(HardwareMap aHwMap) {
