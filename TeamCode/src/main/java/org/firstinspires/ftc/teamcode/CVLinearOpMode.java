@@ -79,13 +79,17 @@ public abstract class CVLinearOpMode extends LinearOpMode {
         cryptoboxDetector = new CryptoboxDetector();
         cryptoboxDetector.downScaleFactor = 0.4;
 
-        switch (cryptoboxColor) {
-            case RED:
-                mode = CryptoboxDetector.CryptoboxDetectionMode.RED;
-                break;
-            case BLUE:
-                mode = CryptoboxDetector.CryptoboxDetectionMode.BLUE;
-                break;
+        if (false) {
+            switch (cryptoboxColor) {
+                case RED:
+                    mode = CryptoboxDetector.CryptoboxDetectionMode.RED;
+                    break;
+                case BLUE:
+                    mode = CryptoboxDetector.CryptoboxDetectionMode.BLUE;
+                    break;
+            }
+        } else {
+            mode = CryptoboxDetector.CryptoboxDetectionMode.BLUE;
         }
 
         cryptoboxDetector.rotateMat = false;
